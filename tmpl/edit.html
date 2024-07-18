@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Employee</title>
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
+</head>
+<body>
+<h1>Edit {{.EmployeeName}}</h1>
+<form method="post" action="/edit/{{.ID}}">
+    <p>Name: <label>
+        <input type="text" name="name" value="{{.EmployeeName}}">
+    </label></p>
+    <p>Salary: <label>
+        <input type="text" name="salary" value="{{.EmployeeSalary}}">
+    </label></p>
+    <p>Age: <label>
+        <input type="text" name="age" value="{{.EmployeeAge}}">
+    </label></p>
+    <p>Profile Image: <label>
+        <input type="text" name="image" value="{{.ProfileImage}}">
+    </label></p>
+    <p><input type="submit" value="Save"></p>
+</form>
+<p><a href="/view/{{.ID}}">Cancel</a></p>
+</body>
+</html>

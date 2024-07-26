@@ -1,0 +1,23 @@
+# Ignore all the .idea folder content
+.idea/
+
+# But keep the following files and directories
+!.idea/inspectionProfiles
+!.idea/runConfigurations
+!.idea/codeStyles
+!.idea/misc.xml
+!.idea/modules.xml
+!.idea/vcs.xml
+
+# Ignore workspace-related files
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/dictionaries
+.idea/libraries
+.idea/scopes
+.idea/usage.statistics.xml
+
+# Ignore IDE-specific files
+*.iml
+*.iws
+*.ipr

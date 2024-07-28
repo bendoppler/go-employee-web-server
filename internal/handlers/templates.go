@@ -7,7 +7,7 @@ import (
 
 var templates = template.Must(
 	template.ParseFiles(
-		"web/template/employees.html", "web/template/view.html", "web/template/edit.html",
+		"web/template/employees.html", "web/template/view.html", "web/template/edit.html", "web/template/add.html",
 	),
 )
 

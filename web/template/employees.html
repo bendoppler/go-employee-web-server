@@ -2,76 +2,21 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Employee List</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-        .container {
-            width: 80%;
-            margin: auto;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        table, th, td {
-            border: 1px solid #ddd;
-        }
-        th, td {
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f4f4f4;
-        }
-        .search-bar {
-            margin-bottom: 20px;
-        }
-        .search-bar input {
-            padding: 8px;
-            width: 300px;
-        }
-    </style>
+    <title>Employees</title>
 </head>
 <body>
-<div class="container">
-    <h1>Employee List</h1>
-    <form method="GET" action="/web/static">
-        <div class="search-bar">
-            <label>
-                <input type="text" name="search" placeholder="Search by name" value="{{.SearchTerm}}">
-            </label>
-            <button type="submit">Search</button>
-        </div>
-    </form>
-    <table>
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Salary</th>
-            <th>Age</th>
-            <th>Profile Image</th>
-        </tr>
-        </thead>
-        <tbody>
-        {{range .Employees}}
-        <tr>
-            <td>{{.ID}}</td>
-            <td><a href="/view/{{.ID}}">{{.EmployeeName}}</a></td>
-            <td>{{.EmployeeSalary}}</td>
-            <td>{{.EmployeeAge}}</td>
-            <td><img src="{{.ProfileImage}}" alt="Profile Image" width="50"></td>
-        </tr>
-        {{else}}
-        <tr>
-            <td colspan="5">No employees found.</td>
-        </tr>
-        {{end}}
-        </tbody>
-    </table>
-</div>
+<h1>Employees</h1>
+<form method="get">
+    <input type="text" name="search" placeholder="Search employees" value="{{.SearchTerm}}">
+    <input type="submit" value="Search">
+</form>
+<a href="/add">Add Employee</a>
+<ul>
+    {{range .Employees}}
+    <li>
+        <a href="/view/{{.ID}}">{{.Name}}</a>
+    </li>
+    {{end}}
+</ul>
 </body>
 </html>

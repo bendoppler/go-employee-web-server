@@ -13,7 +13,7 @@ func FilterEmployees(employees []models.Employee, searchTerm string) []models.Em
 	var result []models.Employee
 
 	for _, e := range employees {
-		if ContainsIgnoreCase(e.EmployeeName, searchTerm) {
+		if ContainsIgnoreCase(e.Name, searchTerm) {
 			result = append(result, e)
 		}
 	}

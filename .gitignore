@@ -1,5 +1,6 @@
 # Ignore all the .idea folder content
 .idea/
+.env
 
 # But keep the following files and directories
 !.idea/inspectionProfiles

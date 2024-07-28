@@ -109,9 +109,12 @@ This project uses Docker to manage the MySQL database. Ensure Docker is installe
 
 1. Create a `.env` file in the root directory of the project with the following content:
     ```
-    MYSQL_ROOT_PASSWORD=your_root_password
-    MYSQL_PASSWORD=your_password
-    MYSQL_DATABASE=employee
+    DB_ROOT_PASSWORD=your_root_password
+    DB_USER=your_db_username
+    DB_PASSWORD=your_db_password
+    DB_NAME=employee
+    DB_HOST=localhost
+    DB_PORT=3306
     ```
 
 2. Run the Docker Compose command to start the MySQL container:
@@ -128,5 +131,5 @@ This will start a MySQL database instance in a Docker container, which your Go a
 
 ### Important Note
 
-- Make sure to replace `your_root_password` and `your_password` with your desired passwords.
+- Make sure to replace `your_root_password`, `your_db_username` and `your_db_password` with your desired passwords.
 - The `.env` file is included in the `.gitignore` to prevent sensitive information from being committed to version control.

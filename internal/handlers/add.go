@@ -12,11 +12,23 @@ func AddHandler(storage data.Storage) http.HandlerFunc {
 		if r.Method == http.MethodPost {
 			err := r.ParseForm()
 			if err != nil {
+				http.Error(w, "Error parsing form", http.StatusBadRequest)
 				return
 			}
+
 			name := r.FormValue("name")
-			salary, _ := strconv.Atoi(r.FormValue("salary"))
-			age, _ := strconv.Atoi(r.FormValue("age"))
+			salary, err := strconv.Atoi(r.FormValue("salary"))
+			if err != nil {
+				http.Error(w, "Invalid salary", http.StatusBadRequest)
+				return
+			}
+
+			age, err := strconv.Atoi(r.FormValue("age"))
+			if err != nil {
+				http.Error(w, "Invalid age", http.StatusBadRequest)
+				return
+			}
+
 			profileImage := r.FormValue("profileImage")
 
 			newEmployee := models.Employee{
@@ -31,6 +43,8 @@ func AddHandler(storage data.Storage) http.HandlerFunc {
 			employees = append(employees, newEmployee)
 			err = storage.SaveEmployees(employees)
 			if err != nil {
+				mu.Unlock()
+				http.Error(w, "Error saving employee", http.StatusInternalServerError)
 				return
 			}
 			mu.Unlock()

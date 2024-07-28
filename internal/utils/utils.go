@@ -1,25 +1,19 @@
 package utils
 
 import (
-	"strings"
-
 	"go-employee-web-server/internal/models"
+	"strings"
 )
 
 func FilterEmployees(employees []models.Employee, searchTerm string) []models.Employee {
 	if searchTerm == "" {
 		return employees
 	}
-	var result []models.Employee
-
-	for _, e := range employees {
-		if ContainsIgnoreCase(e.Name, searchTerm) {
-			result = append(result, e)
+	var filteredEmployees []models.Employee
+	for _, employee := range employees {
+		if strings.Contains(strings.ToLower(employee.Name), strings.ToLower(searchTerm)) {
+			filteredEmployees = append(filteredEmployees, employee)
 		}
 	}
-	return result
-}
-
-func ContainsIgnoreCase(str, word string) bool {
-	return strings.Contains(strings.ToLower(str), strings.ToLower(word))
+	return filteredEmployees
 }

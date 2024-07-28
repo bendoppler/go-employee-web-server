@@ -36,5 +36,35 @@ func GetDB() (*sql.DB, error) {
 		return nil, err
 	}
 
+	// Create table and index if not exists
+	err = createTableAndIndex(db)
+	if err != nil {
+		return nil, err
+	}
+
 	return db, nil
+}
+
+func createTableAndIndex(db *sql.DB) error {
+	// Create employees table if not exists
+	createTableQuery := `CREATE TABLE IF NOT EXISTS Employee (
+		id INT AUTO_INCREMENT PRIMARY KEY,
+		employee_name VARCHAR(255) NOT NULL,
+		employee_salary INT NOT NULL,
+		employee_age INT NOT NULL,
+		profile_image VARCHAR(255) NOT NULL
+	);`
+	_, err := db.Exec(createTableQuery)
+	if err != nil {
+		return fmt.Errorf("error creating table: %v", err)
+	}
+
+	// Add full-text index on employee_name if not exists
+	createIndexQuery := `ALTER TABLE Employee ADD FULLTEXT(employee_name);`
+	_, err = db.Exec(createIndexQuery)
+	if err != nil {
+		return fmt.Errorf("error creating full-text index: %v", err)
+	}
+
+	return nil
 }

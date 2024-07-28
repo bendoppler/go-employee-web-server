@@ -18,5 +18,15 @@
     </li>
     {{end}}
 </ul>
+
+<div>
+    {{if gt .CurrentPage 1}}
+    <a href="/?page={{sub .CurrentPage 1}}&search={{.SearchTerm}}">Previous</a>
+    {{end}}
+    Page {{.CurrentPage}} of {{.TotalPages}}
+    {{if lt .CurrentPage .TotalPages}}
+    <a href="/?page={{add .CurrentPage 1}}&search={{.SearchTerm}}">Next</a>
+    {{end}}
+</div>
 </body>
 </html>

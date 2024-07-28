@@ -1,11 +1,10 @@
 package handlers
 
 import (
-	"net/http"
-	"strconv"
-
 	"go-employee-web-server/internal/data"
 	"go-employee-web-server/internal/models"
+	"net/http"
+	"strconv"
 )
 
 func ViewHandler(storage data.Storage) http.HandlerFunc {

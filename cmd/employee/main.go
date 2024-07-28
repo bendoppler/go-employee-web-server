@@ -1,7 +1,9 @@
 package main
 
 import (
+	"database/sql"
 	"go-employee-web-server/internal/api"
+	"go-employee-web-server/internal/configs"
 	"go-employee-web-server/internal/data"
 	"go-employee-web-server/internal/handlers"
 	"log"
@@ -12,8 +14,19 @@ import (
 )
 
 func main() {
+	// Initialize database connection
+	db, err := configs.GetDB()
+	if err != nil {
+		log.Fatalf("Could not connect to the database: %v", err)
+	}
+	defer func(db *sql.DB) {
+		err := db.Close()
+		if err != nil {
+			log.Fatalf("Cannot init db connection")
+		}
+	}(db)
 	baseURL := "https://dummy.restapiexample.com/api/v1/employees"
-	storage := data.NewFileStorage("web/data/employees.txt")
+	storage := data.NewMySQLStorage(db)
 	apiClient := api.NewHTTPClient(baseURL)
 
 	handlerFactory := handlers.NewHandlerFactory(storage, apiClient)

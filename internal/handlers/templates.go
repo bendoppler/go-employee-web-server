@@ -6,8 +6,16 @@ import (
 )
 
 var templates = template.Must(
-	template.ParseFiles(
-		"web/template/employees.html", "web/template/view.html", "web/template/edit.html", "web/template/add.html",
+	template.New("").Funcs(
+		template.FuncMap{
+			"add": func(a, b int) int { return a + b },
+			"sub": func(a, b int) int { return a - b },
+		},
+	).ParseFiles(
+		"web/template/employees.html",
+		"web/template/view.html",
+		"web/template/edit.html",
+		"web/template/add.html",
 	),
 )
 

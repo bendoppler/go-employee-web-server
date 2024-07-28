@@ -42,7 +42,7 @@ go-employee-web-server/\
 ### cmd/
 This directory contains the main application entry point.
 
-- **yourapp/**: The main application directory.
+- **employee/**: The main application directory.
     - **main.go**: The main file that initializes and runs the application.
 
 ### internal/

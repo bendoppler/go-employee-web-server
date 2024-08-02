@@ -34,6 +34,11 @@ func initializeEmployees(storage data.Storage, apiClient api.APIClient) {
 
 func EmployeesHandler(storage data.Storage, apiClient api.APIClient) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		// Check if the path is root or not
+		if r.URL.Path != "/" {
+			http.Error(w, "404 Page Not Found", http.StatusNotFound)
+			return
+		}
 		once.Do(
 			func() {
 				mu.Lock()

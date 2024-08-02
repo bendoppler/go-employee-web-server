@@ -16,6 +16,8 @@ var templates = template.Must(
 		"web/template/view.html",
 		"web/template/edit.html",
 		"web/template/add.html",
+		"web/template/login.html",
+		"web/template/404.html",
 	),
 )
 

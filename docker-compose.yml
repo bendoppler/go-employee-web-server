@@ -1,6 +1,30 @@
-version: '3.8'
 
 services:
+  web:
+    image: employee
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - redis
+      - db
+    environment:
+      - REDIS_ADDR=redis:6379
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - DB_ADDR=db:3306
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
+
+  redis:
+    image: redis:latest
+    container_name: redis-container
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
   db:
     image: mysql:latest
     container_name: mysql-container
@@ -15,4 +39,5 @@ services:
       - db_data:/var/lib/mysql
 
 volumes:
+  redis-data:
   db_data:

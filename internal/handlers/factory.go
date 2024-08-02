@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"github.com/go-redis/redis/v8"
 	"go-employee-web-server/internal/api"
 	"go-employee-web-server/internal/data"
 	"net/http"
@@ -12,19 +13,22 @@ type Factory interface {
 	MakeViewHandler() http.HandlerFunc
 	MakeEditHandler() http.HandlerFunc
 	MakeAddHandler() http.HandlerFunc
+	MakeLoginHandler() http.HandlerFunc
 }
 
 // HandlerFactory is a factory for creating HTTP handlers
 type HandlerFactory struct {
-	Storage   data.Storage
-	APIClient api.APIClient
+	Storage     data.Storage
+	APIClient   api.APIClient
+	RedisClient *redis.Client
 }
 
 // NewHandlerFactory creates a new instance of HandlerFactory
-func NewHandlerFactory(storage data.Storage, apiClient api.APIClient) *HandlerFactory {
+func NewHandlerFactory(storage data.Storage, apiClient api.APIClient, redisClient *redis.Client) *HandlerFactory {
 	return &HandlerFactory{
-		Storage:   storage,
-		APIClient: apiClient,
+		Storage:     storage,
+		APIClient:   apiClient,
+		RedisClient: redisClient,
 	}
 }
 
@@ -45,4 +49,8 @@ func (f *HandlerFactory) MakeEditHandler() http.HandlerFunc {
 
 func (f *HandlerFactory) MakeAddHandler() http.HandlerFunc {
 	return AddHandler(f.Storage)
+}
+
+func (f *HandlerFactory) MakeLoginHandler() http.HandlerFunc {
+	return LoginHandler(f.RedisClient)
 }

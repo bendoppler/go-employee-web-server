@@ -1,9 +1,10 @@
-package handlers
+package factory
 
 import (
 	"github.com/go-redis/redis/v8"
 	"go-employee-web-server/internal/api"
 	"go-employee-web-server/internal/data"
+	"go-employee-web-server/internal/handlers"
 	"net/http"
 )
 
@@ -37,35 +38,35 @@ func NewHandlerFactory(storage data.Storage, apiClient api.APIClient, redisClien
 
 // MakeEmployeesHandler creates a new employees handler
 func (f *HandlerFactory) MakeEmployeesHandler() http.HandlerFunc {
-	return EmployeesHandler(f.Storage, f.APIClient)
+	return handlers.EmployeesHandler(f.Storage, f.APIClient)
 }
 
 // MakeViewHandler creates a new view handler
 func (f *HandlerFactory) MakeViewHandler() http.HandlerFunc {
-	return ViewHandler(f.Storage)
+	return handlers.ViewHandler(f.Storage)
 }
 
 // MakeEditHandler creates a new edit handler
 func (f *HandlerFactory) MakeEditHandler() http.HandlerFunc {
-	return EditHandler(f.Storage)
+	return handlers.EditHandler(f.Storage)
 }
 
 func (f *HandlerFactory) MakeAddHandler() http.HandlerFunc {
-	return AddHandler(f.Storage)
+	return handlers.AddHandler(f.Storage)
 }
 
 func (f *HandlerFactory) MakeLoginHandler() http.HandlerFunc {
-	return LoginHandler(f.RedisClient)
+	return handlers.LoginHandler(f.RedisClient)
 }
 
 func (f *HandlerFactory) MakePingHandler() http.HandlerFunc {
-	return PingHandler(f.RedisClient)
+	return handlers.PingHandler(f.RedisClient)
 }
 
 func (f *HandlerFactory) MakeTopHandler() http.HandlerFunc {
-	return TopHandler(f.RedisClient)
+	return handlers.TopHandler(f.RedisClient)
 }
 
 func (f *HandlerFactory) MakeCountHandler() http.HandlerFunc {
-	return CountHandler(f.RedisClient)
+	return handlers.CountHandler(f.RedisClient)
 }

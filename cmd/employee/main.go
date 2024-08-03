@@ -5,7 +5,7 @@ import (
 	"go-employee-web-server/internal/api"
 	"go-employee-web-server/internal/configs"
 	"go-employee-web-server/internal/data"
-	"go-employee-web-server/internal/handlers"
+	"go-employee-web-server/internal/factory"
 	"log"
 	"net/http"
 	"os"
@@ -29,7 +29,7 @@ func main() {
 	redisClient := configs.GetRedisClient()
 	storage := data.NewMySQLStorage(db)
 	apiClient := api.NewHTTPClient(baseURL)
-	handlerFactory := handlers.NewHandlerFactory(storage, apiClient, redisClient)
+	handlerFactory := factory.NewHandlerFactory(storage, apiClient, redisClient)
 
 	http.HandleFunc("/", handlerFactory.MakeEmployeesHandler())
 	http.HandleFunc("/add", handlerFactory.MakeAddHandler())

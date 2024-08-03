@@ -3,133 +3,212 @@
 This project follows the [golang-standards/project-layout](https://github.com/golang-standards/project-layout) guidelines. Below is the structure of the project and an explanation of each folder and file.
 
 ## Directory Structure
-go-employee-web-server/\
-├── cmd/\
-│ └── employee/\
-│ └── main.go\
-├── internal/\
-│ ├── api/\
-│ │ └── client.go\
-│ ├── configs/\
-│ │ └── db.go\
-│ ├── data/\
-│ │ ├── file.go\
-│ │ ├── mysql.go\
-│ │ └── storage.go\
-│ ├── factory/\
-│ │ └── handler_factory.go\
-│ ├── handlers/\
-│ │ ├── add.go\
-│ │ ├── employees.go\
-│ │ ├── view.go\
-│ │ └── edit.go\
-│ ├── models/\
-│ │ └── employee.go\
-│ └── utils/\
-│ └── utils.go\
-├── web/\
-│ ├── static/\
-│ │ └── style.css\
-│ └── templates/\
-│ ├── employees.html\
-│ ├── view.html\
-│ ├── edit.html\
-│ └── add.html\
-├── go.mod\
-├── docker-compose.yml\
-├── .env\
+
+```plaintext
+go-employee-web-server/
+├── cmd/
+│   └── employee/
+│       └── main.go
+├── internal/
+│   ├── api/
+│   │   ├── models/
+│   │   │   └── employee.go
+│   │   ├── client.go
+│   │   └── httpClient.go
+│   ├── configs/
+│   │   ├── db.go
+│   │   └── redis.go
+│   ├── data/
+│   │   ├── file.go
+│   │   ├── mysql.go
+│   │   └── storage.go
+│   ├── factory/
+│   │   └── factory.go
+│   ├── handlers/
+│   │   ├── add.go
+│   │   ├── cleanup.go
+│   │   ├── count.go
+│   │   ├── edit.go
+│   │   ├── employees.go
+│   │   ├── login.go
+│   │   ├── ping.go
+│   │   ├── templates.go
+│   │   └── top.go
+│   │   └── view.go
+│   ├── models/
+│   │   └── employee.go
+│   │   └── userCallCount.go
+│   ├── utils/
+│   │   └── utils.go
+├── web/
+│   ├── data/
+│   │   └── employees.txt
+│   ├── static/
+│   │   └── style.css
+│   └── templates/
+│       ├── 404.html
+│       ├── add.html
+│       ├── edit.html
+│       ├── employees.html
+│       ├── login.html
+│       └── view.html
+├── docker-compose.yml
+├── Dockerfile
+├── go.mod
 └── go.sum
+```
+## Directory Details
 
-### cmd/
-This directory contains the main application entry point.
+### `cmd/`
+Contains the main application entry point.
+- **`employee/`**
+    - **`main.go`**: Initializes and runs the application.
 
-- **employee/**: The main application directory.
-  - **main.go**: The main file that initializes and runs the application.
-
-### internal/
+### `internal/`
 Contains application code that is not intended to be used outside of this project.
+- **`api/`**
+    - **`models/`**
+        - **`employee.go`**: Defines the Employee model.
+    - **`client.go`**: Implements the HTTP client.
+    - **`httpClient.go`**: Provides additional HTTP client utilities.
+- **`configs/`**
+    - **`db.go`**: Database configuration.
+    - **`redis.go`**: Redis configuration.
+- **`data/`**
+    - **`file.go`**: File-based storage operations.
+    - **`mysql.go`**: MySQL-specific storage operations.
+    - **`storage.go`**: Defines the storage interface.
+- **`factory/`**
+    - **`factory.go`**: Implements handler creation.
+- **`handlers/`**
+    - **`add.go`**: Handles adding a new employee.
+    - **`cleanup.go`**: Handles cleanup operations.
+    - **`count.go`**: Handles API call count statistics.
+    - **`edit.go`**: Handles editing employee details.
+    - **`employees.go`**: Handles listing employees.
+    - **`login.go`**: Handles user login.
+    - **`ping.go`**: Handles the ping API with rate limiting and locking.
+    - **`templates.go`**: Provides utilities for templates.
+    - **`top.go`**: Handles top API for retrieving top callers.
+    - **`view.go`**: Handles viewing employee details.
+- **`models/`**
+    - **`employee.go`**: Defines the Employee model.
+    - **`userCallCount.go`**: Manages user call count statistics.
+- **`utils/`**
+    - **`utils.go`**: Contains helper functions.
 
-- **api/**: Contains the API client.
-  - **client.go**: Implements the HTTP client and interface for fetching employees from the API.
-
-- **configs/**: Contains configuration-related code.
-  - **db.go**: Handles database configuration.
-
-- **data/**: Contains storage-related code.
-  - **file_storage.go**: Implements file-based storage operations.
-  - **mysql_storage.go**: Implements MySQL-based storage operations.
-  - **storage.go**: Defines the storage interface.
-
-- **factory/**: Contains factory functions for creating handlers.
-  - **handler_factory.go**: Implements the factory for creating handlers.
-
-- **handlers/**: Contains the HTTP handlers for different routes.
-  - **add.go**: Handles adding a new employee.
-  - **employees.go**: Handles listing employees with pagination and search.
-  - **view.go**: Handles viewing an employee's details.
-  - **edit.go**: Handles editing an employee's details.
-
-- **models/**: Contains the data models.
-  - **employee.go**: Defines the Employee struct used within the internal application logic.
-
-- **utils/**: Contains utility functions.
-  - **utils.go**: Implements helper functions used throughout the project.
-
-### web/
+### `web/`
 Contains web-related resources.
+- **`data/`**
+    - **`employees.txt`**: File for storing employee data.
+- **`static/`**
+    - **`style.css`**: CSS file for styling.
+- **`templates/`**
+    - **`404.html`**: Template for 404 error page.
+    - **`add.html`**: Template for adding an employee.
+    - **`edit.html`**: Template for editing an employee.
+    - **`employees.html`**: Template for listing employees.
+    - **`login.html`**: Template for user login.
+    - **`view.html`**: Template for viewing an employee.
 
-- **static/**: Contains static files (e.g., CSS, JavaScript).
-  - **style.css**: Stylesheet for the web application.
-- **templates/**: Contains HTML templates.
-  - **employees.html**: Template for listing employees with pagination and search.
-  - **view.html**: Template for viewing an employee's details.
-  - **edit.html**: Template for editing an employee's details.
-  - **add.html**: Template for adding a new employee.
-
-### go.mod
-The Go module file, which defines the module path and its dependencies.
-
-### go.sum
-The file that contains the expected cryptographic checksums of the content of specific module versions.
+### Root Directory
+- **`docker-compose.yml`**: Defines Docker services for the project.
+- **`Dockerfile`**: Dockerfile for building the application image.
+- **`go.mod`**: Go module file specifying dependencies.
+- **`go.sum`**: Go sum file with checksums for dependencies.
+- **`.env`**: Environment variables file for configuring sensitive settings and secrets.
 
 ## Getting Started
 
-To run the project, follow these steps:
+### Prerequisites
 
-1. Clone the repository.
-2. Navigate to the project directory.
-3. Run `go mod tidy` to install the dependencies.
-4. Run the application using `go run cmd/employee/main.go`.
+Before you begin, ensure you have the following installed on your system:
 
-Ensure that you have Go installed on your machine. For more information on installing Go, visit [the official Go documentation](https://golang.org/doc/install).
+- [Docker](https://docs.docker.com/get-docker/) - For containerization and managing dependencies.
+- [Docker Compose](https://docs.docker.com/compose/install/) - For defining and running multi-container Docker applications.
+- [Go](https://golang.org/doc/install) - Go programming language (version specified in `go.mod`).
 
-## Using Docker for MySQL
+### Setting Up
 
-This project uses Docker to manage the MySQL database. Ensure Docker is installed and running on your machine.
+1. **Clone the Repository**
 
-1. Create a `.env` file in the root directory of the project with the following content:
-    ```
-    DB_ROOT_PASSWORD=your_root_password
-    DB_USER=your_db_username
-    DB_PASSWORD=your_db_password
-    DB_NAME=employee
-    DB_HOST=localhost
-    DB_PORT=3306
-    ```
+   Clone this repository to your local machine using:
 
-2. Run the Docker Compose command to start the MySQL container:
-    ```
-    docker-compose up -d
-    ```
+   ```bash
+   git clone https://github.com/bendoppler/go-employee-web-server.git
+   cd go-employee-web-server
+   ```
+### Create a `.env` File
 
-3. Check the status of the Docker container:
-    ```
-    docker ps
-    ```
+Create a `.env` file in the root directory of the project. This file should contain the environment variables required for the application to run. Here's a sample `.env` file:
 
-This will start a MySQL database instance in a Docker container, which your Go application can connect to.
+```env
+DB_USER=root
+DB_PASSWORD=yourpassword
+DB_NAME=yourdatabase
+DB_ROOT_PASSWORD=yourrootpassword
+REDIS_PASSWORD=yourredispassword
+```
+Update the values with your own configuration:
 
-### Important Note
+- **`DB_USER`**: MySQL username.
+- **`DB_PASSWORD`**: MySQL user password.
+- **`DB_NAME`**: MySQL database name.
+- **`DB_ROOT_PASSWORD`**: MySQL root password.
+- **`REDIS_PASSWORD`**: Redis password.
 
-- Make sure to replace `your_root_password`, `your_db_username` and `your_db_password` with your desired passwords.
-- The `.env` file is included in the `.gitignore` to prevent sensitive information from being committed to version control.
+## Build and Run the Docker Application
+
+Use Docker Compose to build and run the containers. This command will:
+
+1. Build the Docker images for your application based on the `Dockerfile`.
+2. Start the containers as defined in the `docker-compose.yml` file.
+
+Run the following command in the root of your project directory:
+
+```bash
+docker-compose up --build
+```
+- `--build`: Forces Docker Compose to rebuild the images even if they are up-to-date.
+- `--detach` or `-d`: Runs the containers in the background and prints the container IDs.
+- `--remove-orphans`: Removes containers for services not defined in the `docker-compose.yml` file.
+
+To build and run the Docker application, execute the following command:
+
+```bash
+docker-compose up --build
+```
+This command will build the Docker images as defined in the `Dockerfile` and `docker-compose.yml` file, then start the containers in the background. If you make changes to the Dockerfile or dependencies, you can re-run this command to rebuild the images and restart the containers.
+
+After running the application, you can access the application at `http://localhost:8080`.
+
+To stop and remove the application, networks, and volumes created by `docker-compose up`, use the following command:
+
+```bash
+docker-compose down
+```
+This command will stop the running application and remove them, along with the networks and volumes that were created. It is useful for cleaning up after development or when you want to ensure a fresh start.
+
+If you need to stop the application without removing them, you can use:
+
+```bash
+docker-compose stop
+```
+This will stop the running application but leave them in place, so they can be restarted later.
+
+To restart the application, you can use:
+
+```bash
+docker-compose start
+```
+
+This command starts the stopped application without rebuilding the images. It is a quick way to resume your application if you need to pause and resume development or testing.
+
+To remove all application, networks, and volumes defined in your docker-compose.yml, you can use:
+
+```bash
+docker-compose down --volumes
+```
+This command stops and removes the application, networks, and volumes associated with it. It is useful for cleaning up your environment or ensuring a fresh start.
+
+For more detailed information on Docker Compose commands and options, refer to the [official Docker Compose documentation](https://docs.docker.com/compose/).

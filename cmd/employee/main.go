@@ -36,6 +36,7 @@ func main() {
 	http.HandleFunc("/view/", handlerFactory.MakeViewHandler())
 	http.HandleFunc("/edit/", handlerFactory.MakeEditHandler())
 	http.HandleFunc("/login/", handlerFactory.MakeLoginHandler())
+	http.HandleFunc("/ping/", handlerFactory.MakePingHandler())
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("web/static"))))
 
 	sigs := make(chan os.Signal, 1)

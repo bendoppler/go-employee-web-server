@@ -16,6 +16,7 @@ type Factory interface {
 	MakeLoginHandler() http.HandlerFunc
 	MakePingHandler() http.HandlerFunc
 	MakeTopHandler() http.HandlerFunc
+	MakeCountHandler() http.HandlerFunc
 }
 
 // HandlerFactory is a factory for creating HTTP handlers
@@ -63,4 +64,8 @@ func (f *HandlerFactory) MakePingHandler() http.HandlerFunc {
 
 func (f *HandlerFactory) MakeTopHandler() http.HandlerFunc {
 	return TopHandler(f.RedisClient)
+}
+
+func (f *HandlerFactory) MakeCountHandler() http.HandlerFunc {
+	return CountHandler(f.RedisClient)
 }

@@ -13,6 +13,7 @@ var (
 	lockTimeout     = 10 * time.Second
 	rateLimitWindow = 60 * time.Second
 	maxRequests     = 2
+	uniqueUsersKey  = "unique_ping_users"
 )
 
 func PingHandler(redisClient *redis.Client) http.HandlerFunc {
@@ -43,6 +44,13 @@ func PingHandler(redisClient *redis.Client) http.HandlerFunc {
 			return
 		}
 
+		// Track unique users using HyperLogLog
+		err = trackUniqueUser(ctx, redisClient, username)
+		if err != nil {
+			http.Error(w, "Error tracking unique user", http.StatusInternalServerError)
+			return
+		}
+
 		// Update total call count
 		err = updateTotalCallCount(ctx, redisClient, username)
 		if err != nil {
@@ -52,6 +60,11 @@ func PingHandler(redisClient *redis.Client) http.HandlerFunc {
 
 		// Simulate a long-running operation
 		time.Sleep(5 * time.Second)
+		_, err = w.Write([]byte("Pong"))
+		if err != nil {
+			http.Error(w, "Failed to write response", http.StatusInternalServerError)
+			return
+		}
 	}
 }
 
@@ -87,6 +100,12 @@ func checkRateLimit(ctx context.Context, client *redis.Client, username string) 
 		client.Expire(ctx, key, rateLimitWindow)
 	}
 	return count <= int64(maxRequests), nil
+}
+
+// trackUniqueUser adds the username to a HyperLogLog for unique user tracking
+func trackUniqueUser(ctx context.Context, client *redis.Client, username string) error {
+	_, err := client.PFAdd(ctx, uniqueUsersKey, username).Result()
+	return err
 }
 
 // Increment total call count for the user
